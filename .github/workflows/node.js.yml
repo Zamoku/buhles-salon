@@ -34,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: create postgresql tables
-      run: PGPASSWORD=zamo123 psql -h localhost -U zamoe -d salon_test -a -f ./sql/tables.sql 
+      run: PGPASSWORD=zamo123 psql -h localhost -U zamoe -d salon_test -a -f ./sql/data.sql 
     - name: run tests with postgresql
       run:
         npm test
