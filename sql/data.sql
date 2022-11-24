@@ -52,6 +52,13 @@ INSERT INTO client (first_name, last_name, phone_number) values
 INSERT INTO treatment(type, code, price) values ('Pedicure', 'pdc', 'R175'), ('Manicure', 'mnc', 'R215'), ('Make up', 'mkp', 'R185'),('Brows & Lashes', 'brl', 'R240');
 INSERT INTO stylist (first_name, last_name,phone_number, commission_percentage) values ('Sesethu', 'Malgas', '078-5659-563', '0.30'), ('Grace', 'Plaatjies', '082-6369-789', '0.20'), ('Rose', 'Freemode', '073-6455-3389','0.15');
 
+Update treatment set price = '175' where id = 1;
+Update treatment set price = '215' where id = 2;
+Update treatment set price = '185' where id = 3;
+Update treatment set price = '240' where id = 4;
+
+ALTER TABLE treatment ALTER COLUMN price TYPE integer USING (price::integer);
+
 
 /**Grant scripts**/
 -- grant all privileges on table client to zamoe;
