@@ -53,7 +53,7 @@
 
         //Find all the stylists that ever given this treatment, the booking table is central to this method.
         async function findStylistsForTreatment(treatmentId){
-            const getStylistTreatm = await db.manyOrNone('Select * from booking where treatment_id = $1'[treatmentId])
+            const getStylistTreatm = await db.manyOrNone('Select * from booking where treatment_id = $1',[treatmentId])
             return getStylistTreatm
 
         }
@@ -65,14 +65,20 @@
 
         //find the total income for the day specified.
         async function totalIncomeForDay(date){
-            const getTotalIncome = await db.manyOrNone('Select * from booking join treatment on treatment.id = booking.treatment_id where booking_date = $1', [date])
+            const getTotalIncome = await db.manyOrNone(`Select client.first_name, SUM(treatment.price) 
+             from booking join client on client.id = booking.client_id join treatment on treatment.id = booking.treatment_id join stylist on 
+             treatment.id = booking.treatment_id where booking_date = $1 group by client.first_name`, [date])
+
             return getTotalIncome
         }
 
         //find the client that spend the most money at the salon so far
         async function mostValuebleClient()	{
-            // const getValuableClient = await db.oneOrNone('Select client.first_name from client join booking where ')
+             const getValuableClient = await db.manyOrNone(`Select client.first_name, MAX(treatment.price) 
+             from booking join client on client.id = booking.client_id join treatment on treatment.id = booking.treatment_id join stylist on 
+             treatment.id = booking.treatment_id group by client.first_name`)
 
+             return getValuableClient
         }
 
         //calculate the total commission for a given date & stylist
@@ -89,7 +95,6 @@
         findAllBookings,
         findClientBookings,
         findStylistsForTreatment,
-        // findAllBookings,
         totalIncomeForDay,
         mostValuebleClient,
         totalCommission
