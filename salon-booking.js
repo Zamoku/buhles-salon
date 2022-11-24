@@ -32,9 +32,11 @@
         }
         //Find all the bookings that were made for a given date
         async function findAllBookings(date){
-            const getBookings = await db.manyOrNone(`Select client.first_name, TO_CHAR(booking.booking_date, 'YYYY-MM-DD'), booking.booking_time, treatment.type, 
+            const getBookings = await db.manyOrNone(`Select client.first_name, TO_CHAR(booking.booking_date, 'YYYY-MM-DD') as booking_date, booking.booking_time, treatment.type, 
             stylist.first_name from booking join client on client.id = booking.client_id join treatment on treatment.id = booking.treatment_id join stylist on 
-            treatment.id = booking.treatment_id from booking where booking_date = $1`, [date])
+            treatment.id = booking.treatment_id where booking_date = $1`, [date])
+
+       
 
             return getBookings
         }
@@ -42,7 +44,7 @@
         //Find all the bookings for a client - use clientId as lookup
         async function findClientBookings(clientId)	{
 
-            const getClientBookings = await db.manyOrNone(`Select client.first_name, TO_CHAR(booking.booking_date, 'YYYY-MM-DD'), booking.booking_time, treatment.type, 
+            const getClientBookings = await db.manyOrNone(`Select client.first_name, TO_CHAR(booking.booking_date, 'YYYY-MM-DD') As booking_date, booking.booking_time, treatment.type, 
             stylist.first_name from booking join client on client.id = booking.client_id join treatment on treatment.id = booking.treatment_id join stylist on 
             treatment.id = booking.treatment_id where client.id = $1`, [clientId])
 
@@ -56,10 +58,10 @@
 
         }
 
-        async function findAllBookings({date, time}){
-            
+        // async function findAllBookings({date, time}){
+        //     // const getAllBookings = await db.manyOrNone('Select')
 
-        }
+        // }
 
         //find the total income for the day specified.
         async function totalIncomeForDay(date){
@@ -87,7 +89,7 @@
         findAllBookings,
         findClientBookings,
         findStylistsForTreatment,
-        findAllBookings,
+        // findAllBookings,
         totalIncomeForDay,
         mostValuebleClient,
         totalCommission

@@ -79,39 +79,59 @@ describe("The Booking Salon", function () {
         assert.deepEqual([{
           booking_time: '19:00:00',
           first_name: 'Sesethu',
-          to_char: '2022-02-25',
+          booking_date: '2022-02-25',
           type: 'Manicure'
         },
         {
           booking_time: '19:00:00',
           first_name: 'Grace',
-          to_char: '2022-02-25',
+          booking_date: '2022-02-25',
           type: 'Manicure'
         },
         {
           booking_time: '19:00:00',
           first_name: 'Rose',
-          to_char: '2022-02-25',
+          booking_date: '2022-02-25',
           type: 'Manicure'
         }], bookings);
     });
 
-    // it("should be able to get client booking(s)", async function () {
+    it("should be able to get client booking(s)", async function () {
 
-    //     const client1 = await booking.findClient("081-2389-8914");
-    //     const client2 = await booking.findClient("021-456-9636");
+        const client1 = await booking.findClient("081-2389-8914");
+        const client2 = await booking.findClient("021-456-9636");
         
-    //     const treatment1 = await booking.findTreatment("pdc");
-    //     const treatment2 = await booking.findTreatment("mnc");
+        const treatment1 = await booking.findTreatment("pdc");
+        const treatment2 = await booking.findTreatment("mnc");
 
-    //     await booking.booking(treatment1.id, client1.id, date, time);
-    //     await booking.booking(treatment2.id, client1.id, date, time);
-    //     await booking.booking(treatment1.id, client2.id, date, time);
+        const stylist1 = await booking.findStylist('078-5659-563')
+        const stylist2 = await booking.findStylist('082-6369-789')
 
-    //     const bookings = await booking.findAllBookings(client);
+        await booking.makeBooking(treatment1.id, client1.id, stylist1.id, '2022-03-12', '14:00');
+        await booking.makeBooking(treatment2.id, client1.id, stylist1.id, '2022-03-10', '12:00');
+        await booking.makeBooking(treatment1.id, client2.id, stylist2.id, '2022-03-11', '13:00');
 
-    //     assert.equal([], clientBooking)
-    // })
+        const clientBooking = await booking.findAllBookings("2022-03-12");
+
+        assert.deepEqual([{
+          booking_date: '2022-03-12',
+          booking_time: '14:00:00',
+          first_name: 'Sesethu',
+          type: 'Manicure'
+        },
+        {
+          booking_date: '2022-03-12',
+          booking_time: '14:00:00',
+          first_name: 'Grace',
+          type: 'Manicure'
+        },
+        {
+          booking_date: '2022-03-12',
+          booking_time: '14:00:00',
+          first_name: 'Rose',
+          type: 'Manicure'
+        }], clientBooking)
+    })
 
     // it("should be able to get bookings for a date", async function () {
     //     const client1 = await booking.findClient("081-2389-8914");
