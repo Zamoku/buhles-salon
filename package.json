@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "salon-booking.js",
-  "type": "module",
   "directories": {
     "test": "test"
   },
@@ -23,6 +22,6 @@
   "homepage": "https://github.com/codex-academy/bulhes-salon#readme",
   "dependencies": {
     "mocha": "^10.1.0",
-    "pg-promise": "^10.15.0"
+    "pg-promise": "^10.15.2"
   }
 }
